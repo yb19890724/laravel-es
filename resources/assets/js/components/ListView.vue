@@ -2,13 +2,7 @@
     <div>
         <div class="row">
             <div class="col-2 ">
-                <ul class="list-group">
-                    <li class="list-group-item">商品列表(名称搜索)</li>
-                    <li class="list-group-item">Dapibus ac facilisis in</li>
-                    <li class="list-group-item">Morbi leo risus</li>
-                    <li class="list-group-item">Porta ac consectetur ac</li>
-                    <li class="list-group-item">Vestibulum at eros</li>
-                </ul>
+                <AsideView></AsideView>
             </div>
             <div class="col-8">
                 <form class="form-inline">
@@ -41,12 +35,14 @@
             </div>
         </div>
 
-
     </div>
 </template>
 
 <script>
+    import AsideView from "./AsideView.vue"
+
     export default {
+        components: { AsideView },
         data(){
             return {
                 form: {
