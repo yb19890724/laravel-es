@@ -14,9 +14,22 @@ window.Vue = require('vue');
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+import App from './App.vue';
 
-Vue.component('list-view', require('./components/ListView.vue'));
+import VueRouter  from 'vue-router'
+import routes from './routes.js';
 
-const app = new Vue({
-    el: '#app'
+Vue.use(VueRouter);
+
+const router = new VueRouter({
+    mode: 'history',
+    base: __dirname,
+    linkActiveClass: 'active',
+    routes: routes
 });
+
+new Vue({
+    router,
+    render: h => h(App)
+}).$mount('#app');
+
