@@ -13988,7 +13988,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(13);
-module.exports = __webpack_require__(53);
+module.exports = __webpack_require__(61);
 
 
 /***/ }),
@@ -50016,13 +50016,13 @@ if (inBrowser && window.Vue) {
     component: __webpack_require__(44),
     children: [{
         path: '/',
-        redirect: '/dashboard/product'
+        redirect: '/dashboard/categories'
+    }, {
+        path: 'categories',
+        component: __webpack_require__(58)
     }, {
         path: 'product',
         component: __webpack_require__(50)
-    }, {
-        path: 'post',
-        component: __webpack_require__(58)
     }]
 }]);
 
@@ -50176,6 +50176,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({});
@@ -50194,8 +50195,8 @@ var render = function() {
         "li",
         { staticClass: "list-group-item" },
         [
-          _c("router-link", { attrs: { to: "/dashboard/product" } }, [
-            _vm._v("商品检索(名称搜索)")
+          _c("router-link", { attrs: { to: "/dashboard/categories" } }, [
+            _vm._v("搜索分类名称")
           ])
         ],
         1
@@ -50205,8 +50206,8 @@ var render = function() {
         "li",
         { staticClass: "list-group-item" },
         [
-          _c("router-link", { attrs: { to: "/dashboard/post" } }, [
-            _vm._v("文章检索(名称和或者简介)")
+          _c("router-link", { attrs: { to: "/dashboard/product" } }, [
+            _vm._v("商品检索(名称搜索)")
           ])
         ],
         1
@@ -50267,9 +50268,9 @@ if (false) {
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(51)
+var __vue_script__ = __webpack_require__(56)
 /* template */
-var __vue_template__ = __webpack_require__(52)
+var __vue_template__ = __webpack_require__(57)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -50308,7 +50309,12 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 51 */
+/* 51 */,
+/* 52 */,
+/* 53 */,
+/* 54 */,
+/* 55 */,
+/* 56 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -50370,7 +50376,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         search: function search() {
             var _this = this;
 
-            axios.post('/api/search', { text: this.text }).then(function (response) {
+            this.phrasesPrefix = [];
+            axios.post('/api/search/product', { text: this.text }).then(function (response) {
                 _this.products = response.data.data;
             });
         },
@@ -50393,7 +50400,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 52 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -50412,7 +50419,7 @@ var render = function() {
           }
         ],
         staticClass: "form-control search-text",
-        attrs: { type: "text", laceholder: "请输入商品名称" },
+        attrs: { type: "text", placeholder: "请输入商品名称" },
         domProps: { value: _vm.text },
         on: {
           input: [
@@ -50519,16 +50526,6 @@ if (false) {
 }
 
 /***/ }),
-/* 53 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 54 */,
-/* 55 */,
-/* 56 */,
-/* 57 */,
 /* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -50554,7 +50551,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\views\\SearchPost.vue"
+Component.options.__file = "resources\\assets\\js\\views\\SearchCategory.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -50563,9 +50560,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4465de35", Component.options)
+    hotAPI.createRecord("data-v-2bdadd13", Component.options)
   } else {
-    hotAPI.reload("data-v-4465de35", Component.options)
+    hotAPI.reload("data-v-2bdadd13", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -50607,16 +50604,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -50625,7 +50612,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             form: {
                 text: ''
             },
-            products: []
+            categories: []
         };
     },
 
@@ -50633,8 +50620,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         search: function search() {
             var _this = this;
 
-            axios.post('/search', this.form).then(function (response) {
-                _this.products = response.data.data;
+            axios.post('/api/search/categories', this.form).then(function (response) {
+                _this.categories = response.data.data;
             });
         },
         resetText: function resetText() {
@@ -50653,84 +50640,69 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("form", { staticClass: "form-inline" }, [
-      _c("div", { staticClass: "input-group col-lg-12 col-md-12 col-sm-12" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.form.text,
-              expression: "form.text"
-            }
-          ],
-          staticClass: "form-control search-text",
-          attrs: { type: "text", placeholder: "请输入文章名称" },
-          domProps: { value: _vm.form.text },
-          on: {
-            keyup: function($event) {
-              if (
-                !("button" in $event) &&
-                _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-              ) {
-                return null
-              }
-              return _vm.search($event)
-            },
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.$set(_vm.form, "text", $event.target.value)
-            }
+    _c("div", { staticClass: "input-group col-lg-12 col-md-12 col-sm-12" }, [
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.form.text,
+            expression: "form.text"
           }
-        }),
+        ],
+        staticClass: "form-control search-text",
+        attrs: { type: "text", placeholder: "请输入分类名称" },
+        domProps: { value: _vm.form.text },
+        on: {
+          keyup: function($event) {
+            if (
+              !("button" in $event) &&
+              _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+            ) {
+              return null
+            }
+            return _vm.search($event)
+          },
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.$set(_vm.form, "text", $event.target.value)
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "input-group-btn" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-success",
+            attrs: { type: "button" },
+            on: { click: _vm.search }
+          },
+          [_vm._v("搜索")]
+        ),
         _vm._v(" "),
-        _c("div", { staticClass: "input-group-btn" }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-success",
-              attrs: { type: "button" },
-              on: { click: _vm.search }
-            },
-            [_vm._v("搜索")]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-default",
-              attrs: { type: "button" },
-              on: { click: _vm.resetText }
-            },
-            [_vm._v("重置")]
-          )
-        ])
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-default",
+            attrs: { type: "button" },
+            on: { click: _vm.resetText }
+          },
+          [_vm._v("重置")]
+        )
       ])
     ]),
     _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "card-columns my-5" },
-      _vm._l(_vm.products, function(product) {
-        return _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-header text-right bg-transparent" }, [
-            _c("small", [_vm._v(" " + _vm._s(product.name))])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-body text-center text-success" }, [
-            _c("img", { attrs: { src: product.avatar } })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-footer bg-transparent" }, [
-            _c("h5", { staticClass: "card-text" }, [
-              _vm._v(" " + _vm._s(product.description))
-            ])
-          ])
-        ])
-      })
-    )
+    _c("div", { staticClass: "card-columns my-5" }, [
+      _c(
+        "ul",
+        _vm._l(_vm.categories, function(category) {
+          return _c("li", [_vm._v(_vm._s(category.name))])
+        })
+      )
+    ])
   ])
 }
 var staticRenderFns = []
@@ -50739,9 +50711,15 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-4465de35", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-2bdadd13", module.exports)
   }
 }
+
+/***/ }),
+/* 61 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

@@ -16,6 +16,5 @@ Route::get('/', function () {
 });
 
 
-Route::get('/home','HomeController@index');
-Route::post('/search','SearchController@index');
+Route::get('/dashboard/{path?}','HomeController@index')->where('path', '[\/\w\.-]*');;
 

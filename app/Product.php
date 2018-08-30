@@ -4,22 +4,29 @@ namespace App;
 
 use ScoutElastic\Searchable;
 use Illuminate\Database\Eloquent\Model;
-use App\Es\ProductIndexConfigurator;
+use App\Es\Index\ProductsIndexConfigurator;
+use App\Es\Rule\HighlightSearchRule;
 
 class Product extends Model
 {
     use Searchable;
 
+    protected $fillable = [
+        'name', 'category_id'
+    ];
+
+    protected $appends=['highlight'];
+
     /**
      * @var string
      */
-    protected $indexConfigurator = ProductIndexConfigurator::class;
+    protected $indexConfigurator = ProductsIndexConfigurator::class;
 
     /**
      * @var array
      */
-    protected $searchRules = [
-        //
+    protected $searchRules = [//全局搜索方法
+        HighlightSearchRule::class
     ];
 
     /**
@@ -27,16 +34,30 @@ class Product extends Model
      */
     protected $mapping = [
         //
-        'properties'=>[
-            'name'=>[
-                'type'=>'text'
+        'properties' => [
+            'name'        => [
+                'type'            => 'text',
+                'analyzer'        => 'ik_max_word',//设置分词
+                'search_analyzer' => 'ik_max_word',
+                'boost'           => 3,//提高权重
             ],
-            'description'=>[
-                'type'=>'text'
+            'description' => [
+                'type' => 'text'
             ],
-            'avatar'=>[
-                'type'=>'text'
-            ]
+            'avatar'      => [
+                'type' => 'text'
+            ],
+            'category'    => [
+                'type'       => 'nested',
+                'properties' => [
+                    'id'   => [
+                        'type' => 'long',
+                    ],
+                    'name' => [
+                        'type' => 'text',
+                    ]
+                ]
+            ],
         ]
     ];
 
@@ -44,4 +65,17 @@ class Product extends Model
     {
         return 'products';
     }
+
+    /**
+     * es 索引数据结构
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+        $array[ 'category' ] = \App\Categories::select( [ 'id', 'name' ] )->find( $array[ 'category_id' ] );
+
+        return $array;
+    }
+
 }

@@ -12,14 +12,7 @@
 
     </head>
     <body>
-
-
-        <div id="app">
-            <div class="col mt-5">
-                <list-view></list-view>
-            </div>
-
-        </div>
+        <div id="app"></div>
     </body>
     <script src="{{ asset('js/app.js') }}"></script>
 </html>

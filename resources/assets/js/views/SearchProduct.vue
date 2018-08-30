@@ -3,7 +3,7 @@
     <div>
 
         <div class="input-group col-lg-12 col-md-12 col-sm-12">
-            <input type="text" v-model="text" @input="matchPhrasePrefix()" class="form-control search-text" laceholder="请输入商品名称"
+            <input type="text" v-model="text" @input="matchPhrasePrefix()" class="form-control search-text" placeholder="请输入商品名称"
                    @keyup.enter="search">
             <div class="input-group-btn">
                 <button class="btn btn-success" type="button" @click="search">搜索</button>
@@ -52,7 +52,9 @@
         },
         methods: {
             search(){
-                axios.post('/api/search', {text:this.text})
+
+                this.phrasesPrefix=[];
+                axios.post('/api/search/product', {text:this.text})
                         .then(response=> {
                     this.products = response.data.data
                 })

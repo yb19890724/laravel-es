@@ -6,15 +6,15 @@ export default [
         children: [
             {
                 path: '/',
-                redirect: '/dashboard/product'
+                redirect: '/dashboard/categories'
+            },
+            {
+                path: 'categories',
+                component: require('./views/SearchCategory.vue')
             },
             {
                 path: 'product',
                 component: require('./views/SearchProduct.vue')
-            },
-            {
-                path: 'post',
-                component: require('./views/SearchPost.vue')
             }
         ]
     }
