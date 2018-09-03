@@ -13988,7 +13988,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(13);
-module.exports = __webpack_require__(61);
+module.exports = __webpack_require__(56);
 
 
 /***/ }),
@@ -50019,10 +50019,10 @@ if (inBrowser && window.Vue) {
         redirect: '/dashboard/categories'
     }, {
         path: 'categories',
-        component: __webpack_require__(58)
+        component: __webpack_require__(50)
     }, {
         path: 'product',
-        component: __webpack_require__(50)
+        component: __webpack_require__(53)
     }]
 }]);
 
@@ -50268,9 +50268,214 @@ if (false) {
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(56)
+var __vue_script__ = __webpack_require__(51)
 /* template */
-var __vue_template__ = __webpack_require__(57)
+var __vue_template__ = __webpack_require__(52)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\views\\SearchCategory.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2bdadd13", Component.options)
+  } else {
+    hotAPI.reload("data-v-2bdadd13", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 51 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            form: {
+                text: ''
+            },
+            categories: []
+        };
+    },
+
+    methods: {
+        search: function search() {
+            var _this = this;
+
+            axios.post('/api/search/categories', this.form).then(function (response) {
+                _this.categories = response.data.data;
+            });
+        },
+        resetText: function resetText() {
+            this.form.text = "";
+        }
+    }
+
+});
+
+/***/ }),
+/* 52 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "input-group col-lg-12 col-md-12 col-sm-12" }, [
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.form.text,
+            expression: "form.text"
+          }
+        ],
+        staticClass: "form-control search-text",
+        attrs: { type: "text", placeholder: "请输入分类名称" },
+        domProps: { value: _vm.form.text },
+        on: {
+          keyup: function($event) {
+            if (
+              !("button" in $event) &&
+              _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+            ) {
+              return null
+            }
+            return _vm.search($event)
+          },
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.$set(_vm.form, "text", $event.target.value)
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "input-group-btn" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-success",
+            attrs: { type: "button" },
+            on: { click: _vm.search }
+          },
+          [_vm._v("搜索")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-default",
+            attrs: { type: "button" },
+            on: { click: _vm.resetText }
+          },
+          [_vm._v("重置")]
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "my-5" }, [
+      _c(
+        "div",
+        { staticClass: "container" },
+        _vm._l(_vm.categories, function(category) {
+          return _c("div", { staticClass: "btn-group" }, [
+            _c(
+              "button",
+              { staticClass: "btn btn-primary", attrs: { type: "button" } },
+              [_vm._v(_vm._s(category.name))]
+            )
+          ])
+        })
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2bdadd13", module.exports)
+  }
+}
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(54)
+/* template */
+var __vue_template__ = __webpack_require__(55)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -50309,16 +50514,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 51 */,
-/* 52 */,
-/* 53 */,
-/* 54 */,
-/* 55 */,
-/* 56 */
+/* 54 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -50367,40 +50574,50 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             text: '',
-            products: [],
-            phrasesPrefix: []
+            products: [], //商品数据
+            phrasesPrefix: [], //联想搜索
+            categories: [] //分类数据
         };
+    },
+    created: function created() {
+        var _this = this;
+
+        axios.get('/api/select/categories', { text: this.text }).then(function (response) {
+            _this.categories = response.data.data;
+        });
     },
 
     methods: {
         search: function search() {
-            var _this = this;
+            var _this2 = this;
 
             this.phrasesPrefix = [];
-            axios.post('/api/search/product', { text: this.text }).then(function (response) {
-                _this.products = response.data.data;
-            });
+            if (this.text != '') {
+                axios.post('/api/search/product', { text: this.text }).then(function (response) {
+                    _this2.products = response.data.data;
+                });
+            }
         },
         resetText: function resetText(text) {
             this.text = text;
             this.phrasesPrefix = [];
+            this.search();
         },
         matchPhrasePrefix: function matchPhrasePrefix() {
+            var _this3 = this;
 
-            this.text;
-
-            this.phrasesPrefix = [{
-                name: '测试1'
-            }, {
-                name: '测试2'
-            }];
+            if (this.text != '') {
+                axios.post('/api/search/product/prefix', { text: this.text }).then(function (response) {
+                    _this3.phrasesPrefix = response.data.data;
+                });
+            }
         }
     }
 
 });
 
 /***/ }),
-/* 57 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -50492,11 +50709,37 @@ var render = function() {
     _vm._v(" "),
     _c(
       "div",
+      { staticClass: "container my-5" },
+      [
+        _c("p", [_vm._v("商品分类：")]),
+        _vm._v(" "),
+        _vm._l(_vm.categories, function(category) {
+          return _c("div", { staticClass: "btn-group" }, [
+            _c(
+              "button",
+              { staticClass: "btn btn-primary", attrs: { type: "button" } },
+              [_vm._v(_vm._s(category.name))]
+            )
+          ])
+        })
+      ],
+      2
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
       { staticClass: "card-columns my-5" },
       _vm._l(_vm.products, function(product) {
         return _c("div", { staticClass: "card" }, [
           _c("div", { staticClass: "card-header text-right bg-transparent" }, [
-            _c("small", [_vm._v(" " + _vm._s(product.name))])
+            _c("small", [
+              _vm._v(
+                " 商品名称：" +
+                  _vm._s(product.name) +
+                  ",商品分类：" +
+                  _vm._s(product.category)
+              )
+            ])
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "card-body text-center text-success" }, [
@@ -50526,197 +50769,7 @@ if (false) {
 }
 
 /***/ }),
-/* 58 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(2)
-/* script */
-var __vue_script__ = __webpack_require__(59)
-/* template */
-var __vue_template__ = __webpack_require__(60)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources\\assets\\js\\views\\SearchCategory.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2bdadd13", Component.options)
-  } else {
-    hotAPI.reload("data-v-2bdadd13", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 59 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            form: {
-                text: ''
-            },
-            categories: []
-        };
-    },
-
-    methods: {
-        search: function search() {
-            var _this = this;
-
-            axios.post('/api/search/categories', this.form).then(function (response) {
-                _this.categories = response.data.data;
-            });
-        },
-        resetText: function resetText() {
-            this.form.text = "";
-        }
-    }
-
-});
-
-/***/ }),
-/* 60 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "input-group col-lg-12 col-md-12 col-sm-12" }, [
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.form.text,
-            expression: "form.text"
-          }
-        ],
-        staticClass: "form-control search-text",
-        attrs: { type: "text", placeholder: "请输入分类名称" },
-        domProps: { value: _vm.form.text },
-        on: {
-          keyup: function($event) {
-            if (
-              !("button" in $event) &&
-              _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-            ) {
-              return null
-            }
-            return _vm.search($event)
-          },
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.$set(_vm.form, "text", $event.target.value)
-          }
-        }
-      }),
-      _vm._v(" "),
-      _c("div", { staticClass: "input-group-btn" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-success",
-            attrs: { type: "button" },
-            on: { click: _vm.search }
-          },
-          [_vm._v("搜索")]
-        ),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-default",
-            attrs: { type: "button" },
-            on: { click: _vm.resetText }
-          },
-          [_vm._v("重置")]
-        )
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "card-columns my-5" }, [
-      _c(
-        "ul",
-        _vm._l(_vm.categories, function(category) {
-          return _c("li", [_vm._v(_vm._s(category.name))])
-        })
-      )
-    ])
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-2bdadd13", module.exports)
-  }
-}
-
-/***/ }),
-/* 61 */
+/* 56 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

@@ -10,14 +10,22 @@
             </div>
         </div>
 
+        <div class="my-5">
+            <div class="container">
+                <div class="btn-group" v-for='category in categories' >
+                    <button type="button" class="btn btn-primary">{{ category.name }}</button>
+                </div>
+            </div>
+        </div>
 
+<!--
         <div class="card-columns my-5">
 
             <ul>
                 <li v-for='category in categories'  >{{ category.name }}</li>
             </ul>
 
-        </div>
+        </div>-->
     </div>
 
 

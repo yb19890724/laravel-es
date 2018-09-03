@@ -15,8 +15,6 @@ class Product extends Model
         'name', 'category_id'
     ];
 
-    protected $appends=['highlight'];
-
     /**
      * @var string
      */
@@ -77,5 +75,6 @@ class Product extends Model
 
         return $array;
     }
+
 
 }

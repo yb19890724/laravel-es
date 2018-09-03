@@ -18,8 +18,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::post('/search/product','SearchController@nameSearchProducts');
 
 Route::post('/search/categories','SearchController@nameSearchCategories');
 
+Route::post('/select/categories','SearchController@selectCategories');
+
 Route::post('/search/product/prefix','SearchController@productPrefix');
+
+Route::get('/search/product','SearchController@nameSearchProducts');

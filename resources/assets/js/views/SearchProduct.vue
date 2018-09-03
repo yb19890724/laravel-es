@@ -19,11 +19,18 @@
         </div>
 
 
+        <div class="container my-5">
+            <p>商品分类：</p>
+            <div class="btn-group" v-for='category in categories' >
+                <button type="button" class="btn btn-primary">{{ category.name }}</button>
+            </div>
+        </div>
+
         <div class="card-columns my-5">
             <div class="card" v-for='product in products'>
 
                 <div class="card-header text-right bg-transparent">
-                    <small> {{ product.name }}</small>
+                    <small> 商品名称：{{ product.name }},商品分类：{{  product.category}}</small>
                 </div>
                 <div class="card-body text-center text-success">
                     <img :src="product.avatar" width="350" height="300">
@@ -46,35 +53,41 @@
         data(){
             return {
                 text          : '',
-                products      : [],
-                phrasesPrefix : []
+                products      : [],//商品数据
+                phrasesPrefix : [],//联想搜索
+                categories : []//分类数据
             }
+        },
+        created(){
+            axios.get('/api/select/categories', {text:this.text})
+                    .then(response=> {
+                this.categories = response.data.data
+            })
         },
         methods: {
             search(){
 
                 this.phrasesPrefix=[];
-                axios.post('/api/search/product', {text:this.text})
-                        .then(response=> {
-                    this.products = response.data.data
-                })
+                if(this.text!=''){
+                    axios.post('/api/search/product', {text:this.text})
+                            .then(response=> {
+                        this.products = response.data.data
+                    })
+                }
             },
             resetText(text){
                 this.text=text
                 this.phrasesPrefix=[];
+                this.search()
             },
             matchPhrasePrefix(){
 
-                this.text
-
-                this.phrasesPrefix=[
-                    {
-                        name:'测试1'
-                    },
-                    {
-                        name:'测试2'
-                    }
-                ]
+                if(this.text!=''){
+                    axios.post('/api/search/product/prefix', {text:this.text})
+                            .then(response=>{
+                        this.phrasesPrefix = response.data.data
+                    })
+                }
             }
         }
 
