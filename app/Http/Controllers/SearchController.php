@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\{
-    Categories, Product
+    Categories, Product, Shop
 };
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use App\Traits\EsFormatTrait;
 
 class SearchController extends Controller
 {
+    use EsFormatTrait;
+
     /**
      * 分类名称检索
      * @param Request $request
@@ -47,13 +50,12 @@ class SearchController extends Controller
      */
     public function nameSearchProducts(Request $request)
     {
-
         $products = Product::search( $request->text )
-                    ->rule(\App\Es\Rule\ProductMultiMatchRule::class)
-                    ->paginateRaw();
-        $result=$products->toArray();
+            ->rule( \App\Es\Rule\ProductMultiMatchRule::class )
+            ->paginateRaw();
+        $result = $products->toArray();
 
-        $result['data']=$products->esFormat();
+        $result[ 'data' ] = $products->esFormat();
 
         return response()->json( [
             'data' => $result
@@ -73,5 +75,50 @@ class SearchController extends Controller
         return response()->json( [
             'data' => $result
         ], 200 );
+    }
+
+    /**
+     * nearby shops
+     * @param Request $request
+     * @return array
+     */
+    public function nearbyShops(Request $request)
+    {
+        [ $lat, $lon ] = explode( ',', $request->position );
+        $result = Shop::searchRaw( [
+            /*'from'        => 1,
+            'size'        => 2,*/
+            "sort"        => [
+                "_geo_distance" => [
+                    "location" => [
+                        "lat" => $lat,
+                        "lon" => $lon
+                    ],
+                    "order"    => $request->sort,
+                    "unit"     => "km"
+                ]
+            ],
+            "post_filter" => [
+                "geo_distance" => [
+                    "distance" => $request->distance,
+                    "unit"     => "km",
+                    "location" => [
+                        "lat" => $lat,
+                        "lon" => $lon
+                    ]
+                ]
+            ]
+        ] );
+
+        return response()->json( [
+            'data' => $this->formatDistanceShops( $result )
+        ], 200 );
+    }
+
+    protected function formatDistanceShops(array $params)
+    {
+        return $this->esFormatData( $params, function (&$record, $value) {
+            $record[ 'distance' ] = isset( $value[ 'sort' ][ 0 ] ) ? sprintf( "%.1f", $value[ 'sort' ][ 0 ] ) . "公里" : "";
+        } );
     }
 }

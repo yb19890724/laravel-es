@@ -25,4 +25,6 @@ Route::post('/select/categories','SearchController@selectCategories');
 
 Route::post('/search/product/prefix','SearchController@productPrefix');
 
-Route::get('/search/product','SearchController@nameSearchProducts');
+Route::post('/search/product','SearchController@nameSearchProducts');
+
+Route::post('/search/nearby/shop','SearchController@nearbyShops');

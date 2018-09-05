@@ -4,10 +4,11 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Collection;
+use App\Traits\EsFormatTrait;
 
 class CollectionProvider extends ServiceProvider
 {
-
+    use EsFormatTrait;
 
     /**
      * Bootstrap services.
@@ -33,16 +34,10 @@ class CollectionProvider extends ServiceProvider
 
     public function elasticPaginateRawData()
     {
-        Collection::macro( 'esFormat', function () {
-
-            $record = [];
-            foreach ($this->all()[ 'hits' ][ 'hits' ] as $key => $value) {
-
-                $record[ $key ]=$value['_source'];
-                $record[ $key ][ 'highlight' ] = isset( $value[ 'highlight' ] ) ? $value[ 'highlight' ][key( $value[ 'highlight' ] )][ 0 ] : '';
-
-            }
-             return $record;
+        $trait = $this;
+        Collection::macro( 'esFormat', function () use ($trait) {
+            return $trait->esFormatData( $this->all() );
         } );
     }
+
 }

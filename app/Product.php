@@ -49,7 +49,7 @@ class Product extends Model
                 'type'       => 'nested',
                 'properties' => [
                     'id'   => [
-                        'type' => 'long',
+                        'type' => 'short',
                     ],
                     'name' => [
                         'type' => 'text',

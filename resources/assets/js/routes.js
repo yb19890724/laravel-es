@@ -15,6 +15,10 @@ export default [
             {
                 path: 'product',
                 component: require('./views/SearchProduct.vue')
+            },
+            {
+                path: 'shop',
+                component: require('./views/SearchNearyShop.vue')
             }
         ]
     }

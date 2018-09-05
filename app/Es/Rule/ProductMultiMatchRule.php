@@ -6,6 +6,7 @@ use ScoutElastic\SearchRule;
 
 class ProductMultiMatchRule extends SearchRule
 {
+
     /**
      * @inheritdoc
      */
@@ -25,12 +26,34 @@ class ProductMultiMatchRule extends SearchRule
      */
     public function buildQueryPayload()
     {
-        return [
-            "must" => [
-                "term" => [
-                    "name" => $this->builder->query
+
+        $rules = [ //搜索名称
+            'must' => [
+                [
+                    "match" => [
+                        "name" => $this->builder->query
+                    ]
                 ]
             ]
         ];
+
+        $categoryScreen = [ //分类筛选
+            [
+                "nested" => [
+                    "path"  => "category",
+                    "query" => [
+                        "match" => [
+                            "category.id" => request()->get( 'category_id' )
+                        ]
+                    ]
+                ]
+            ]
+
+        ];
+
+        if (request()->get( 'category_id' )) {
+            $rules[ 'must' ] = array_merge( $rules[ 'must' ], $categoryScreen );
+        }
+        return $rules;
     }
 }

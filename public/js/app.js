@@ -50023,6 +50023,9 @@ if (inBrowser && window.Vue) {
     }, {
         path: 'product',
         component: __webpack_require__(53)
+    }, {
+        path: 'shop',
+        component: __webpack_require__(61)
     }]
 }]);
 
@@ -50177,6 +50180,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({});
@@ -50213,7 +50217,16 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c("li", { staticClass: "list-group-item" }, [_vm._v("Morbi leo risus")]),
+      _c(
+        "li",
+        { staticClass: "list-group-item" },
+        [
+          _c("router-link", { attrs: { to: "/dashboard/shop" } }, [
+            _vm._v("搜索周边店铺")
+          ])
+        ],
+        1
+      ),
       _vm._v(" "),
       _c("li", { staticClass: "list-group-item" }, [
         _vm._v("Porta ac consectetur ac")
@@ -50568,6 +50581,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -50576,13 +50591,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             text: '',
             products: [], //商品数据
             phrasesPrefix: [], //联想搜索
-            categories: [] //分类数据
+            categories: [], //分类数据
+            selectCategoryId: ""
         };
     },
     created: function created() {
         var _this = this;
 
-        axios.get('/api/select/categories', { text: this.text }).then(function (response) {
+        axios.post('/api/select/categories', { text: this.text }).then(function (response) {
             _this.categories = response.data.data;
         });
     },
@@ -50593,8 +50609,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.phrasesPrefix = [];
             if (this.text != '') {
-                axios.post('/api/search/product', { text: this.text }).then(function (response) {
-                    _this2.products = response.data.data;
+
+                var formData = {
+                    text: this.text,
+                    category_id: this.selectCategoryId
+                };
+                axios.post('/api/search/product', formData).then(function (response) {
+                    _this2.products = response.data.data.data;
                 });
             }
         },
@@ -50602,6 +50623,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.text = text;
             this.phrasesPrefix = [];
             this.search();
+        },
+        resetCategoryId: function resetCategoryId(categoryId) {
+            this.selectCategoryId = categoryId;
+            this.matchPhrasePrefix();
         },
         matchPhrasePrefix: function matchPhrasePrefix() {
             var _this3 = this;
@@ -50717,8 +50742,16 @@ var render = function() {
           return _c("div", { staticClass: "btn-group" }, [
             _c(
               "button",
-              { staticClass: "btn btn-primary", attrs: { type: "button" } },
-              [_vm._v(_vm._s(category.name))]
+              {
+                staticClass: "btn btn-primary",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    _vm.resetCategoryId(category.id)
+                  }
+                }
+              },
+              [_vm._v(_vm._s(category.name) + "\n            ")]
             )
           ])
         })
@@ -50737,7 +50770,7 @@ var render = function() {
                 " 商品名称：" +
                   _vm._s(product.name) +
                   ",商品分类：" +
-                  _vm._s(product.category)
+                  _vm._s(product.category.name)
               )
             ])
           ]),
@@ -50773,6 +50806,339 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 57 */,
+/* 58 */,
+/* 59 */,
+/* 60 */,
+/* 61 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(62)
+/* template */
+var __vue_template__ = __webpack_require__(63)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\views\\SearchNearyShop.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-0b68d3bc", Component.options)
+  } else {
+    hotAPI.reload("data-v-0b68d3bc", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 62 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            position: '39.903731,116.397743',
+            distance: 1,
+            distances: [1, 2, 3],
+            shops: [], //商品数据
+            distanceTitle: '选择距离(默认一公里)',
+            sortTitle: '排序(默认由近到远)',
+            sortDistance: {
+                asc: '由近到远',
+                desc: '由远到近'
+            },
+            sort: 'asc'
+        };
+    },
+
+    methods: {
+        search: function search() {
+            var _this = this;
+
+            if (this.location != '') {
+                var formData = {
+                    position: this.position,
+                    distance: this.distance,
+                    sort: this.sort
+                };
+                axios.post('/api/search/nearby/shop', formData).then(function (response) {
+                    _this.shops = response.data.data;
+                });
+            }
+        },
+        setDistance: function setDistance(distance) {
+            this.distance = distance;
+            this.distanceTitle = distance + '公里';
+            this.search();
+        },
+        setSort: function setSort(sort) {
+            this.sort = sort;
+            this.sortTitle = this.sortDistance[sort];
+            this.search();
+        },
+        resetText: function resetText() {
+            this.text = '';
+            this.distanceTitle = '选择距离(默认一公里)';
+            this.position = '39.903731,116.397743';
+            this.sort = 'asc';
+            this.sortTitle = '排序(默认由近到远)';
+        }
+    }
+
+});
+
+/***/ }),
+/* 63 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "input-group col-lg-12 col-md-12 col-sm-12" }, [
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.position,
+            expression: "position"
+          }
+        ],
+        staticClass: "form-control",
+        attrs: { type: "text", placeholder: "请输入坐标点" },
+        domProps: { value: _vm.position },
+        on: {
+          input: [
+            function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.position = $event.target.value
+            },
+            function($event) {
+              _vm.matchPhrasePrefix()
+            }
+          ],
+          keyup: function($event) {
+            if (
+              !("button" in $event) &&
+              _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+            ) {
+              return null
+            }
+            return _vm.search($event)
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "input-group-btn" }, [
+        _c("div", { staticClass: "btn-group" }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-outline-secondary dropdown-toggle",
+              attrs: { type: "button", "data-toggle": "dropdown" }
+            },
+            [_vm._v(_vm._s(this.distanceTitle))]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "dropdown-menu" },
+            _vm._l(_vm.distances, function(distance) {
+              return _c(
+                "a",
+                {
+                  staticClass: "dropdown-item",
+                  attrs: { href: "javascript:;" },
+                  on: {
+                    click: function($event) {
+                      _vm.setDistance(distance)
+                    }
+                  }
+                },
+                [_vm._v(_vm._s(distance) + "公里")]
+              )
+            })
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "btn-group" }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-outline-secondary dropdown-toggle",
+              attrs: { type: "button", "data-toggle": "dropdown" }
+            },
+            [_vm._v(_vm._s(_vm.sortTitle))]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "dropdown-menu" },
+            _vm._l(_vm.sortDistance, function(val, index) {
+              return _c(
+                "a",
+                {
+                  staticClass: "dropdown-item",
+                  attrs: { href: "javascript:;" },
+                  on: {
+                    click: function($event) {
+                      _vm.setSort(index)
+                    }
+                  }
+                },
+                [_vm._v(_vm._s(val))]
+              )
+            })
+          )
+        ]),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-success",
+            attrs: { type: "button" },
+            on: { click: _vm.search }
+          },
+          [_vm._v("搜索")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-default",
+            attrs: { type: "button" },
+            on: { click: _vm.resetText }
+          },
+          [_vm._v("重置")]
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "card-columns my-5" },
+      _vm._l(_vm.shops, function(shop) {
+        return _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-header text-right bg-transparent" }, [
+            _c("small", [_vm._v(" 店铺名称：" + _vm._s(shop.name))])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body text-center text-success" }, [
+            _c("p", [_vm._v("距离:" + _vm._s(shop.distance))]),
+            _vm._v(" "),
+            _c("p", [_vm._v("经度:" + _vm._s(shop.location.lat))]),
+            _vm._v(" "),
+            _c("p", [_vm._v("纬度:" + _vm._s(shop.location.lon))])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-footer bg-transparent" }, [
+            _c("h5", { staticClass: "card-text" }, [
+              _vm._v(" " + _vm._s(shop.address))
+            ])
+          ])
+        ])
+      })
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-0b68d3bc", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
