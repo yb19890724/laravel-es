@@ -4,7 +4,7 @@ namespace App;
 
 use ScoutElastic\Searchable;
 use Illuminate\Database\Eloquent\Model;
-use App\Es\Index\ProductsIndexConfigurator;
+use App\Es\Index\ProductIndexConfigurator;
 use App\Es\Rule\HighlightSearchRule;
 
 class Product extends Model
@@ -18,7 +18,7 @@ class Product extends Model
     /**
      * @var string
      */
-    protected $indexConfigurator = ProductsIndexConfigurator::class;
+    protected $indexConfigurator = ProductIndexConfigurator::class;
 
     /**
      * @var array
@@ -42,6 +42,9 @@ class Product extends Model
             'description' => [
                 'type' => 'text'
             ],
+            'price'       => [
+                'type' => 'float'
+            ],
             'avatar'      => [
                 'type' => 'text'
             ],
@@ -52,7 +55,12 @@ class Product extends Model
                         'type' => 'short',
                     ],
                     'name' => [
-                        'type' => 'text',
+                        'type' =>'text',
+                        "fields"=>[
+                            "raw"=>[
+                                "type"=>"keyword"
+                            ]
+                        ]
                     ]
                 ]
             ],
@@ -71,7 +79,9 @@ class Product extends Model
     public function toSearchableArray()
     {
         $array = $this->toArray();
-        $array[ 'category' ] = \App\Categories::select( [ 'id', 'name' ] )->find( $array[ 'category_id' ] );
+        $category = \App\Category::select( [ 'id', 'name' ] )->find( $array[ 'category_id' ] );
+        $array[ 'category_name' ] = $category[ 'name' ];
+        $array[ 'category' ] = $category;
 
         return $array;
     }

@@ -12,14 +12,15 @@ $product = [
 $factory->define( App\Product::class, function (Faker $faker) use ($product) {
 
     static $i = 0;
-    $categoryId  = App\Categories::pluck( 'id' )->random();
+    $categoryId  = App\Category::pluck( 'id' )->random();
     $productName = $product[ $i ];
     $i++;
 
     return [
         'name'        => $productName,
         'description' => $faker->catchPhrase(),
-        'avatar'      => $faker->imageUrl(),
+        'price'       => $faker->randomFloat(5,10,1000),
+        'avatar'      => $faker->imageUrl('350','300'),
         'category_id' => $categoryId,
     ];
 

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\{
-    Categories, Product, Shop
+    Category, Product, Shop
 };
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -20,10 +20,10 @@ class SearchController extends Controller
      */
     public function nameSearchCategories(Request $request)
     {
-        $result = Categories::search( $request->text )->get();
+        $result = Category::search( $request->text )->get();
 
         return response()->json( [
-            'data' => $result
+            "data" => $result
         ], 200 );
     }
 
@@ -33,13 +33,13 @@ class SearchController extends Controller
      */
     public function selectCategories()
     {
-        $result = Categories::search( '*' )
+        $result = Category::search( '*' )
             ->select( [ 'id', 'name' ] )
             ->take( 1000 )
             ->get();
 
         return response()->json( [
-            'data' => $result
+            "data" => $result
         ], 200 );
     }
 
@@ -55,10 +55,10 @@ class SearchController extends Controller
             ->paginateRaw();
         $result = $products->toArray();
 
-        $result[ 'data' ] = $products->esFormat();
+        $result[ "data" ] = $products->esFormat();
 
         return response()->json( [
-            'data' => $result
+            "data" => $result
         ], 200 );
     }
 
@@ -69,11 +69,11 @@ class SearchController extends Controller
     public function productPrefix(Request $request)
     {
         $result = Product::search( $request->text )
-            ->select( [ 'name' ] )
+            ->select( [ "name" ] )
             ->rule( \App\Es\Rule\MatchPhrasePrefixRule::class )->get();
 
         return response()->json( [
-            'data' => $result
+            "data" => $result
         ], 200 );
     }
 
@@ -111,14 +111,107 @@ class SearchController extends Controller
         ] );
 
         return response()->json( [
-            'data' => $this->formatDistanceShops( $result )
+            "data" => $this->formatDistanceShops( $result )
         ], 200 );
     }
 
     protected function formatDistanceShops(array $params)
     {
         return $this->esFormatData( $params, function (&$record, $value) {
-            $record[ 'distance' ] = isset( $value[ 'sort' ][ 0 ] ) ? sprintf( "%.1f", $value[ 'sort' ][ 0 ] ) . "公里" : "";
+            $record[ 'distance' ] = isset( $value[ "sort" ][ 0 ] ) ? sprintf( "%.1f", $value[ "sort" ][ 0 ] ) . "公里" : "";
         } );
     }
+
+    /**
+     * 统计分类下面的商品数量
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function calculationCategoryProducts(Request $request)
+    {
+        $result = Product::searchRaw( [
+            "size" => "0",
+            "aggs" => [
+                "category_products" => [
+                    "nested" => [
+                        "path" => "category"
+                    ],
+                    "aggs"   => [
+                        "counts" => [
+                            "terms" => [
+                                "field" => "category.name.raw",
+                                "order" => [
+                                    "_count" => $request->sort
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ] );
+
+        return response()->json( [
+            "data" => $this->esAggFormatData( $result, function ($hits, $aggregations) {
+                return $aggregations['category_products'][ 'counts' ][ 'buckets' ];
+            } )
+        ], 200 );
+
+    }
+
+    /**
+     * 统计某个分类下面的，商品平均价格与所有商品的平均价格
+     * @param $categoryId
+     * @return mixed
+     */
+    public function calculationCategoryProductAvg($categoryId)
+    {
+        $result = Product::searchRaw( [
+            "query" => [
+                "bool" => [
+                    "must" => [
+                        [
+                            "match" => [
+                                "category_id" => $categoryId
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            "aggs"  => [
+                "single_category_avg_price" => [
+                    "avg" => [
+                        "field" => "price"
+                    ]
+                ],
+                "all"                       => [
+                    "global" => new \stdClass(),
+                    "aggs"   => [
+                        "all_category_avg_price" => [
+                            "avg" => [
+                                "field" => "price"
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ] );
+
+        return response()->json( [
+            "data" =>  $this->esAggFormatData( $result, function ($hits, $aggregations) {
+                $record = [ 'product'=>[]];
+
+                foreach ($hits as $key=>$value) {
+                    $record['product'][$key]=$value['_source'];
+                }
+                $record['doc_count']=$aggregations['all']['doc_count'];
+                $record['all_category_avg_price']=sprintf( "%.2f",$aggregations['all']['all_category_avg_price']['value']);
+                $record['single_category_avg_price']=sprintf( "%.2f",$aggregations['single_category_avg_price']['value']);
+                return $record;
+            } )
+        ], 200 );
+
+
+    }
+
+
 }

@@ -10,8 +10,12 @@
             <li class="list-group-item">
                 <router-link to="/dashboard/shop">搜索周边店铺</router-link>
             </li>
-            <li class="list-group-item">Porta ac consectetur ac</li>
-            <li class="list-group-item">Vestibulum at eros</li>
+            <li class="list-group-item">
+                <router-link to="/dashboard/aggs/category/product">统计分类下商品数量</router-link>
+            </li>
+            <li class="list-group-item">
+                <router-link to="/dashboard/aggs/category/product/avg">列出分类下商品，计算价格平均值</router-link>
+            </li>
         </ul>
     </div>
 
@@ -19,8 +23,5 @@
 
 <script>
 
-    export default {
-
-
-    }
+    export default {}
 </script>

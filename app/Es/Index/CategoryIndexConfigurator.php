@@ -6,7 +6,7 @@ use ScoutElastic\IndexConfigurator;
 use ScoutElastic\Migratable;
 use App\Es\Index\ProductIndexConfigurator;
 
-class CategoriesIndexConfigurator extends IndexConfigurator
+class CategoryIndexConfigurator extends IndexConfigurator
 {
     use Migratable;
 

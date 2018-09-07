@@ -32,14 +32,19 @@
             <div class="card" v-for='product in products'>
 
                 <div class="card-header text-right bg-transparent">
-                    <small> 商品名称：{{ product.name }},商品分类：{{ product.category.name }}</small>
+                    <div class="container">
+                        <button type="button" class="btn btn-success btn-sm">商品名称</button>：
+                            <span style="color: #dc3545;font-weight:bold;font-size: 20px;" v-html="product.highlight"></span>,
+                        <button type="button" class="btn btn-info btn-sm">商品分类</button>：{{ product.category.name }}
+                    </div>
                 </div>
                 <div class="card-body text-center text-success">
                     <img :src="product.avatar" width="350" height="300">
                 </div>
 
                 <div class="card-footer bg-transparent">
-                    <h5 class="card-text"> {{ product.description }}</h5>
+                    <button type="button" class="btn btn-warning btn-sm">商品价格</button>：{{ product.price }}<br />
+                    <button type="button" class="btn btn-sm">商品简介</button>：{{ product.description }}
                 </div>
             </div>
         </div>
@@ -48,6 +53,9 @@
 
 </template>
 
+<style>
+
+</style>
 
 <script>
 
@@ -89,7 +97,7 @@
             } ,
             resetCategoryId(categoryId){
                 this.selectCategoryId = categoryId
-                this.matchPhrasePrefix()
+                this.search()
             } ,
             matchPhrasePrefix(){
 

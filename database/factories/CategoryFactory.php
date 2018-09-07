@@ -8,7 +8,7 @@ $category = [
 ];
 
 
-$factory->define( App\Categories::class, function (Faker $faker) use ($category) {
+$factory->define( App\Category::class, function (Faker $faker) use ($category) {
     static $i=0;
     $categoryName = $category[ $i ];
     $i++;

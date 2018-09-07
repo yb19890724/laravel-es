@@ -6,6 +6,12 @@ use Closure;
 
 trait EsFormatTrait
 {
+    /**
+     * es search data format
+     * @param array $params
+     * @param string $closure
+     * @return array
+     */
     public function esFormatData(array $params, $closure = "")
     {
         $record = [ ];
@@ -25,5 +31,18 @@ trait EsFormatTrait
         }
 
         return $record;
+    }
+
+    /**
+     * es aggs data format
+     */
+    public function esAggFormatData(array $params, $closure = "")
+    {
+        $hits = $params[ 'hits' ][ 'hits' ];
+
+        $aggregations = $params[ 'aggregations' ];
+
+        return $closure( $hits, $aggregations );
+
     }
 }

@@ -5,7 +5,7 @@ namespace App\Es\Index;
 use ScoutElastic\IndexConfigurator;
 use ScoutElastic\Migratable;
 
-class ProductsIndexConfigurator extends IndexConfigurator
+class ProductIndexConfigurator extends IndexConfigurator
 {
     use Migratable;
 

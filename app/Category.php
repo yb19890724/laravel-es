@@ -4,10 +4,10 @@ namespace App;
 
 use ScoutElastic\Searchable;
 use Illuminate\Database\Eloquent\Model;
-use App\Es\Index\CategoriesIndexConfigurator;
+use App\Es\Index\CategoryIndexConfigurator;
 use App\Es\Rule\NameSearchRule;
 
-class Categories extends Model
+class Category extends Model
 {
     use Searchable;
 
@@ -18,7 +18,7 @@ class Categories extends Model
     /**
      * @var string
      */
-    protected $indexConfigurator = CategoriesIndexConfigurator::class;
+    protected $indexConfigurator = CategoryIndexConfigurator::class;
 
     /**
      * @var array

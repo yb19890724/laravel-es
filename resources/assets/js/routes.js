@@ -19,6 +19,14 @@ export default [
             {
                 path: 'shop',
                 component: require('./views/SearchNearyShop.vue')
+            },
+            {
+                path: 'aggs/category/product',
+                component: require('./views/AggsCategoryProducts.vue')
+            },
+            {
+                path: 'aggs/category/product/avg',
+                component: require('./views/AggsCategoryProductAvg.vue')
             }
         ]
     }

@@ -13,14 +13,15 @@ class CreateProductsTable extends Migration
      */
     public function up()
     {
-        Schema::create('products', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('category_id');
-            $table->string('name',10);
-            $table->string('description',255);
-            $table->string('avatar',255);
+        Schema::create( 'products', function (Blueprint $table) {
+            $table->increments( 'id' );
+            $table->integer( 'category_id' );
+            $table->string( 'name', 10 );
+            $table->decimal( 'price', 8, 2 );
+            $table->string( 'description', 255 );
+            $table->string( 'avatar', 255 );
             $table->timestamps();
-        });
+        } );
     }
 
     /**
@@ -30,6 +31,6 @@ class CreateProductsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists( 'products' );
     }
 }

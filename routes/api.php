@@ -28,3 +28,7 @@ Route::post('/search/product/prefix','SearchController@productPrefix');
 Route::post('/search/product','SearchController@nameSearchProducts');
 
 Route::post('/search/nearby/shop','SearchController@nearbyShops');
+
+Route::post('/aggs/category/products','SearchController@calculationCategoryProducts');
+
+Route::post('/aggs/category/{categoryId}/product/avg','SearchController@calculationCategoryProductAvg');
