@@ -13,6 +13,18 @@ use Illuminate\Foundation\Inspiring;
 |
 */
 
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->describe('Display an inspiring quote');
+Artisan::command('laraveles', function () {
+
+    $this->call("elastic:create-index",[
+        "index-configurator"=>"App\\Es\\Index\\ShopIndexConfigurator"
+    ]);
+    $this->call("elastic:create-index",[
+        "index-configurator"=>"App\\Es\\Index\\CategoryIndexConfigurator"
+    ]);
+    $this->call("elastic:create-index",[
+        "index-configurator"=>"App\\Es\\Index\\ProductIndexConfigurator"
+    ]);
+    $this->call("migrate");
+    $this->call("db:seed");
+
+});
