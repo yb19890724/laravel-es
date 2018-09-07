@@ -43,3 +43,13 @@ SCOUT_ELASTIC_HOST=localhost:9200      #es host
 
 访问:yourhost/dashboard
 
+![1p pto q x9uqr jt o ipu](https://user-images.githubusercontent.com/21005459/45195269-49030b00-b289-11e8-8085-5a89008989f7.png)
+
+![1536286882 1](https://user-images.githubusercontent.com/21005459/45195274-502a1900-b289-11e8-9f0c-3a5759beb0ff.jpg)
+
+![1536286894 1](https://user-images.githubusercontent.com/21005459/45195280-53250980-b289-11e8-998b-97ceb633ad32.jpg)
+
+![1536286916 1](https://user-images.githubusercontent.com/21005459/45195284-57512700-b289-11e8-98da-1cc0c73a7729.jpg)
+
+![1536286933 1](https://user-images.githubusercontent.com/21005459/45195285-591aea80-b289-11e8-99b6-7522ee414d3d.jpg)
+
