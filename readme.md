@@ -29,15 +29,15 @@ npm run dev
 ```
 
 ## 修改配置  .env
-
-DB_HOST=
-DB_PORT=
+```
+DB_HOST=  
+DB_PORT=  
 DB_DATABASE=
 DB_USERNAME=
 DB_PASSWORD=
-SCOUT_DRIVER=elastic                                #scout驱动
+SCOUT_DRIVER=elastic                   #scout驱动
 SCOUT_ELASTIC_HOST=localhost:9200      #es host
-
+```
 ## 界面
 
 访问:yourhost/dashboard
